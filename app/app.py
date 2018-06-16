@@ -25,7 +25,8 @@ class OpenGraphNode(db.Model):
         self.type = type
         self.title = title
 
-    def as_dict(self):
+
+def as_dict(self):
 
         return {
             "url": self.url,
@@ -74,20 +75,36 @@ def post_stories():
 
 
         node = scrape(url)
+        data = node.as_dict()
 
         print(node.as_dict())
 
         try:
 
-            db.session.add(node)
-            db.session.commit()
+            # db.session.add(node)
+            # db.session.commit()
+
+            node1 = get_or_create_node(db.session, node)
+
+            id = node1.id
+
+            data['id'] = id
+
+            print(f"node.id: {id}")
 
         except Exception:
 
-            pass
+            try:
+                node1 = OpenGraphNode.query.filter(OpenGraphNode.url == url).first()
+
+                id = node1.id
+                data['id'] = id
+
+            except Exception:
+
+                pass
 
 
-        data = node.as_dict()
 
         return json.dumps(data)
 
@@ -103,6 +120,17 @@ def get_stories(canonical_url_id):
 def hello_name(name):
     return f"Hello {name} world!"
 
+
+
+def get_or_create_node(session, option_node):
+
+    node = session.query(OpenGraphNode).filter_by(url=option_node.url).first()
+    if node:
+        return node
+    else:
+        session.add(option_node)
+        session.commit()
+        return option_node
 
 
 

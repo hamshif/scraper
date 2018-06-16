@@ -9,20 +9,37 @@ jdata = json.dumps(data)
 
 headers = {'Content-Type': "application/json; charset=xxxe", 'Accept': "application/json"}
 
-params = {"url": "https://www.imdb.com/title/tt0070992/?ref_=fn_al_tt_1"}
+params = {"url": "https://www.imdb.com/title/tt0117500/reviews?ref_=tt_ql_3"}
 
 response = requests.post(url=url, params=params,json=jdata, headers=headers)
 
-print(response.status_code)
-print(response.raise_for_status())
-print(response.status_code)
+# print(response.status_code)
+# print(response.raise_for_status())
+# print(response.status_code)
+# print(response.content)
+# print(response.cookies)
+# print(response.headers)
+
+
+data = response.content
+print(data)
+
+j = json.loads(data)
+
+print()
+print()
+# print(j)
+
+id = j['id']
+
+print(f"id: {id}")
+
+
+
+response = requests.get(url=f'http://localhost:5000/stories/{id}', json=jdata)
+
 print(response.content)
-print(response.cookies)
-print(response.headers)
 
-
-
-# response = requests.get('http://localhost:5000/stories', json=data)
 
 # response = requests.get(url=url, json=jdata)
 # #

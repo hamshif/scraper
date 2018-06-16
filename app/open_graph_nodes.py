@@ -35,7 +35,7 @@ class OpenGraphNode(db.Model):
             },
             "scrape_status" : "done",
             "updated_time": "2018-02-18T03:41:09+0000",
-            "id": "10150237978467733"
+            "id": self.id
         }
 
 
