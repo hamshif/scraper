@@ -100,9 +100,8 @@ def post_stories():
                 id = node1.id
                 data['id'] = id
 
-            except Exception:
-
-                pass
+            except Exception as e:
+                print(e)
 
 
 
@@ -112,6 +111,25 @@ def post_stories():
 @app.route('/stories/<canonical_url_id>')
 def get_stories(canonical_url_id):
 
+    id = int(canonical_url_id)
+
+    try:
+
+        db_node = db.session.query(OpenGraphNode).get(id)
+        if db_node:
+            print("galooshy")
+            print(type(db_node))
+
+            data = as_dict1(db_node)
+            print(data)
+
+            return json.dumps(data)
+
+    except Exception as e:
+        print("gamoozee\n")
+        print(e)
+        print("gamoozee\n")
+
 
     return f'Hello there {canonical_url_id} scraper!'
 
@@ -119,6 +137,27 @@ def get_stories(canonical_url_id):
 @app.route('/<name>')
 def hello_name(name):
     return f"Hello {name} world!"
+
+
+
+def as_dict1(obj1):
+
+    data = {c.name: getattr(obj1, c.name) for c in obj1.__table__.columns}
+
+    timestamp = data["update_time"]
+
+    timestamp = timestamp.strftime("%s")
+    data["update_time"] = timestamp
+
+    data["image"] = {
+         "url": "http://hardcoded_not_important",
+         "type": "image/png",
+         "width": 300,
+         "height": 300,
+         "alt": "The Open Graph logo"
+     }
+
+    return data
 
 
 

@@ -15,7 +15,7 @@ class OpenGraphNode(db.Model):
     title = db.Column(db.String(200), unique=False, nullable=True)
     update_time = db.Column(db.DateTime, unique=False, default=datetime.datetime.utcnow)
 
-    def __init__(self, url, type=None ,title=None):
+    def __init__(self, url, type=None, title=None):
         self.url = url
         self.type = type
         self.title = title

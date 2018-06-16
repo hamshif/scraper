@@ -9,7 +9,7 @@ jdata = json.dumps(data)
 
 headers = {'Content-Type': "application/json; charset=xxxe", 'Accept': "application/json"}
 
-params = {"url": "https://www.imdb.com/title/tt0117500/reviews?ref_=tt_ql_3"}
+params = {"url": "https://www.imdb.com/title/tt0117500/reviews"}
 
 response = requests.post(url=url, params=params,json=jdata, headers=headers)
 
