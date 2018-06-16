@@ -1,9 +1,47 @@
+import datetime
 import json
 from flask import Flask, request
 from scrape import scrape
-# from open_graph_node import OpenGraphNode, db
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
+
+
+
+class OpenGraphNode(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(200), unique=True, nullable=True)
+    type = db.Column(db.String(120), unique=False, nullable=True)
+    title = db.Column(db.String(200), unique=False, nullable=True)
+    update_time = db.Column(db.DateTime, unique=False, default=datetime.datetime.utcnow)
+
+    def __init__(self, url, type=None ,title=None):
+        self.url = url
+        self.type = type
+        self.title = title
+
+    def as_dict(self):
+
+        return {
+            "url": self.url,
+            "type": self.type,
+            "title": self.title,
+            "image": {
+                "url": "http://ogp.me/logo.png",
+                "type": "image/png",
+                "width": 300,
+                "height": 300,
+                "alt": "The Open Graph logo"
+            },
+            "scrape_status" : "done",
+            "updated_time": "2018-02-18T03:41:09+0000",
+            "id": "10150237978467733"
+        }
 
 
 @app.route('/stories', methods=['GET', 'POST', 'DELETE', 'PUT'])
@@ -37,11 +75,18 @@ def post_stories():
 
         node = scrape(url)
 
-        print(f"node.url: {node.url}")
+        print(node.as_dict())
 
-        print(node)
+        try:
 
-        print('gamgee')
+            db.session.add(node)
+            db.session.commit()
+
+        except Exception:
+
+            pass
+
+
         data = node.as_dict()
 
         return json.dumps(data)
@@ -60,7 +105,9 @@ def hello_name(name):
 
 
 
+
 if __name__ == '__main__':
 
+    db.create_all()
     app.run(debug=True, host='0.0.0.0')
 

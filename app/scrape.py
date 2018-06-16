@@ -1,11 +1,9 @@
 import json
 import requests
 from bs4 import BeautifulSoup
-from open_graph_node import OpenGraphNode
+from open_graph_nodes import OpenGraphNode
 
 url = 'https://www.imdb.com/title/tt0117500/'
-
-
 
 
 def scrape(url):
