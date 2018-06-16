@@ -1,4 +1,35 @@
-﻿1.  Description
+﻿Open Graph Scraper
+=
+
+After ssh into machine
+
+install docker on ubuntu
+-
+
+instructions at:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
+
+```
+git clone https://github.com/hamshif/kewee.git
+
+cd ./kewee
+
+docker build -t kewee-flask:latest .
+
+docker run -d -p 5000:5000 kewee-flask:latest
+```
+
+running locally
+-
+get a virtualenvwrapper with requirements.txt
+python ./app/app.py
+
+integration test
+-
+python ./app/test.py
+
+
+1.  Description
    1. Build a web service that will scrape  Open graph tags. For any given URL.
    2. See http://ogp.me/ for definitions
    3. See https://developers.facebook.com/tools/debug/sharing/?q=http%3A%2F%2Fogp.me%2F for an example implementation
