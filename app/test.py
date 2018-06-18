@@ -2,7 +2,8 @@ import json
 import requests
 
 # url = 'http://localhost:5000/stories'
-url = 'http://54.236.22.180/stories'
+url = "http://gideonbar.hiring.keywee.io/stories"
+# url = 'http://54.236.22.180/stories'
 
 data = {"yo": 6}
 
